@@ -1,16 +1,16 @@
 #!/bin/bash
 sudo -s
-sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
-sudo echo "" > /etc/apt/sources.list
-sudo echo "# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释" >> /etc/apt/sources.list
-sudo echo "deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial main restricted universe multiverse" >> /etc/apt/sources.list
-sudo echo "# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial main restricted universe multiverse" >> /etc/apt/sources.list
-sudo echo "deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-updates main restricted universe multiverse" >> /etc/apt/sources.list
-sudo echo "# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-updates main restricted universe multiverse" >> /etc/apt/sources.list
-sudo echo "deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-backports main restricted universe multiverse" >> /etc/apt/sources.list
-sudo echo "# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-backports main restricted universe multiverse" >> /etc/apt/sources.list
-sudo echo "deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-security main restricted universe multiverse" >> /etc/apt/sources.list
-sudo echo "# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-security main restricted universe multiverse" >> /etc/apt/sources.list
+#sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
+#sudo echo "" > /etc/apt/sources.list
+#sudo echo "# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释" >> /etc/apt/sources.list
+#sudo echo "deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial main restricted universe multiverse" >> /etc/apt/sources.list
+#sudo echo "# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial main restricted universe multiverse" >> /etc/apt/sources.list
+#sudo echo "deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-updates main restricted universe multiverse" >> /etc/apt/sources.list
+#sudo echo "# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-updates main restricted universe multiverse" >> /etc/apt/sources.list
+#sudo echo "deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-backports main restricted universe multiverse" >> /etc/apt/sources.list
+#sudo echo "# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-backports main restricted universe multiverse" >> /etc/apt/sources.list
+#sudo echo "deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-security main restricted universe multiverse" >> /etc/apt/sources.list
+#sudo echo "# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-security main restricted universe multiverse" >> /etc/apt/sources.list
 
 sudo apt-get update -y
 sudo apt-get dist-upgrade -y
@@ -20,12 +20,18 @@ wget https://www.nsnam.org/releases/ns-allinone-3.29.tar.bz2
 tar xjf ns-allinone-3.29.tar.bz2
 cd ns-allinone-3.29
 ./build.py --enable-examples --enable-tests 
-./bake/bake.py build
+#./bake/bake.py build
 cd ns-3.29
-./waf build
+./waf --build-profile=debug --enable-examples --enable-tests configure
 #if no "Hello Simulator" come out please using follow where has ./waf
 #./waf clean 
 #./waf --build-profile=optimized --enable-examples --enable-tests configure 
 ./waf --run hello-simulator 
 
-
+#install netanim
+cd ../netanim-3.108
+sudo apt-get install qt4-dev-tools
+make clean
+qmake NetAnim.pro
+make
+./NetAnim
